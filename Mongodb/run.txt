@@ -1,0 +1,7 @@
+command line code to run
+
+	mongo < filename.js
+	
+	or
+	
+	mongo databasename filename.js
