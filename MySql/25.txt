@@ -1,0 +1,205 @@
+BANK DATABASE
+
+
+mysql> show tables;
++----------------+
+| Tables_in_bank |
++----------------+
+| account        |
+| borrower       |
+| branch         |
+| customer       |
+| depositor      |
+| loan           |
++----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from account;
++--------+--------------+---------+
+| acc_no | branch_name  | balance |
++--------+--------------+---------+
+|   1011 | Akurdi       |   10000 |
+|   1012 | Shivajinagar |   10023 |
+|   1013 | Akurdi       |   15000 |
+|   1014 | Ravet        |    1000 |
+|   1122 | Akurdi       |   80000 |
+|   2001 | Ravet        |   20000 |
++--------+--------------+---------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from branch;
++--------------+-------------+--------+
+| branch_name  | branch_city | assets |
++--------------+-------------+--------+
+| Akurdi       | Pimpri      |   1000 |
+| Manchar      | Pune        |  15000 |
+| Ravet        | Pimpri      |   1230 |
+| Shivajinagar | Pune        |   1450 |
++--------------+-------------+--------+
+4 rows in set (0.01 sec)
+
+mysql> select * from customer;
++----------+-----------------+-----------+
+| c_name   | c_street        | c_city    |
++----------+-----------------+-----------+
+| Raj      | Akurdi          | Chinchwad |
+| Shailesh | SB_road         | Pune      |
+| Shivani  | SB_road         | Snagar    |
+| Sushant  | Walhekarwadi    | Pimpri    |
+| Vishal   | Modern_clg_road | Pune      |
++----------+-----------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from depositor;
++----------+--------+
+| c_name   | acc_no |
++----------+--------+
+| Sushant  |   1014 |
+| Vishal   |   1013 |
+| Shailesh |   1011 |
++----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from loan;
++---------+--------------+--------+
+| loan_no | branch_name  | amount |
++---------+--------------+--------+
+|     111 | Ravet        |  30000 |
+|     123 | Akurdi       |   1000 |
+|     145 | Ravet        |   5000 |
+|     177 | Shivajinagar | 100000 |
+|     254 | Akurdi       |  30000 |
+|     555 | Akurdi       |  20000 |
++---------+--------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from borrower;
++----------+---------+
+| c_name   | loan_no |
++----------+---------+
+| Sushant  |     145 |
+| Vishal   |     177 |
+| Shailesh |     123 |
+| Raj      |     254 |
++----------+---------+
+4 rows in set (0.00 sec)
+
+//////////////////////////////////////////////////
+
+Q1)
+
+	mysql> select distinct(branch_name) from loan;
+	+--------------+
+	| branch_name  |
+	+--------------+
+	| Akurdi       |
+	| Ravet        |
+	| Shivajinagar |
+	+--------------+
+	3 rows in set (0.02 sec)
+
+
+Q2)
+
+	mysql> select loan_no from loan where branch_name='Akurdi' and amount>12000;
+	+---------+
+	| loan_no |
+	+---------+
+	|     254 |
+	|     555 |
+	+---------+
+	2 rows in set (0.00 sec)
+
+Q3)
+
+	mysql> select c_name,borrower.loan_no,amount from borrower,loan where borrower.loan_no=loan.loan_no;
+	+----------+---------+--------+
+	| c_name   | loan_no | amount |
+	+----------+---------+--------+
+	| Sushant  |     145 |   5000 |
+	| Vishal   |     177 | 100000 |
+	| Shailesh |     123 |   1000 |
+	+----------+---------+--------+
+	3 rows in set (0.00 sec)
+
+
+Q4)
+
+	mysql> select c_name from borrower,loan where borrower.loan_no=loan.loan_no and loan.branch_name='Akurdi' order by(c_name);
+	+----------+
+	| c_name   |
+	+----------+
+	| Raj      |
+	| Shailesh |
+	+----------+
+	2 rows in set (0.01 sec)
+
+
+Q6)
+
+
+
+Q7)
+	mysql> select c_name from borrower;
+	+----------+
+	| c_name   |
+	+----------+
+	| Raj      |
+	| Shailesh |
+	| Sushant  |
+	| Vishal   |
+	+----------+
+	4 rows in set (0.00 sec)
+
+Q8)
+
+	mysql> select avg(balance) from account where branch_name='Akurdi';
+	+--------------+
+	| avg(balance) |
+	+--------------+
+	|   35000.0000 |
+	+--------------+
+	1 row in set (0.00 sec)
+	
+
+Q9)
+
+	mysql> select branch_name,avg(balance) from account group by(branch_name) ;
+	+--------------+--------------+
+	| branch_name  | avg(balance) |
+	+--------------+--------------+
+	| Akurdi       |   35000.0000 |
+	| Ravet        |   10500.0000 |
+	| Shivajinagar |   10023.0000 |
+	+--------------+--------------+
+	3 rows in set (0.00 sec)
+
+
+Q10)
+
+	mysql> select branch_name,count(*) from depositor d,account a where d.acc_no=a.acc_
+	+-------------+----------+
+	| branch_name | count(*) |
+	+-------------+----------+
+	| Akurdi      |        2 |
+	| Ravet       |        1 |
+	+-------------+----------+
+	2 rows in set (0.00 sec)
+
+Q11)
+
+Q12)
+
+Q13)
+
+	mysql> select sum(amount) as Bank_loan from borrower,loan where borrower.loan_no=loan.loan_no;
+	+-----------+
+	| Bank_loan |
+	+-----------+
+	|    136000 |
+	+-----------+
+	1 row in set (0.00 sec)
+
+
+

@@ -1,0 +1,2 @@
+source TE/DBMS/Practicle/Mysql/chit9.sql
+
